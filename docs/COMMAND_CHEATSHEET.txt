@@ -1,0 +1,51 @@
+# Suricata IDS Command Cheat Sheet
+
+## Interface and network
+ip -br addr
+ip route
+ip route get <CLIENT_IP>
+
+## Install and verify
+sudo apt update
+sudo apt install suricata jq netcat-openbsd -y
+suricata -V
+sudo suricata --build-info
+
+## Backup and edit
+sudo cp /etc/suricata/suricata.yaml /etc/suricata/suricata.yaml.backup
+sudo nano /etc/suricata/suricata.yaml
+sudo mkdir -p /etc/suricata/rules
+sudo nano /etc/suricata/rules/local.rules
+
+## Rules and configuration
+sudo suricata-update
+sudo ls -lh /var/lib/suricata/rules/
+sudo suricata -T -c /etc/suricata/suricata.yaml
+sudo grep -n 'SURICATA LAB NETCAT TEST' /etc/suricata/rules/local.rules
+
+## Service and logs
+sudo systemctl restart suricata
+sudo systemctl status suricata --no-pager
+sudo journalctl -u suricata -n 50 --no-pager
+sudo tail -f /var/log/suricata/fast.log
+sudo grep -n 'SURICATA LAB NETCAT TEST' /var/log/suricata/fast.log
+
+## Netcat listener on Suricata VM
+nc -lvnp 9999
+sudo ss -lntp | grep 9999
+
+## Send traffic from Client VM
+printf 'SURICATA-LAB-TEST\n' | nc -nv <SURICATA_IP> 9999
+./scripts/generate_traffic.sh <SURICATA_IP>
+
+## EVE JSON
+sudo grep '"event_type":"alert"' /var/log/suricata/eve.json | tail -n 5
+sudo jq 'select(.event_type == "alert") | {timestamp, src_ip, src_port, dest_ip, dest_port, alert: .alert.signature, sid: .alert.signature_id}' /var/log/suricata/eve.json | tail -n 30
+sudo tail -f /var/log/suricata/eve.json
+
+## Troubleshooting
+ip -br addr
+ip route
+sudo ss -lntp | grep 9999
+sudo journalctl -u suricata -n 50 --no-pager
+sudo tail -n 50 /var/log/suricata/suricata.log

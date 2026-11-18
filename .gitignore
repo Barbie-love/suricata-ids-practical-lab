@@ -1,0 +1,15 @@
+# Sensitive or generated data
+*.pcap
+*.pcapng
+*.log
+eve.json
+fast.log
+suricata.log
+# Local system config backups
+*.backup
+# Temporary files
+*.swp
+*.tmp
+# Keep evidence placeholders
+!evidence/logs/README.md
+!evidence/screenshots/README.md

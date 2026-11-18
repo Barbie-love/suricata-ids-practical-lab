@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-11-18T12:00:00.000000+00:00",
+  "event_type": "alert",
+  "src_ip": "192.168.56.20",
+  "src_port": 50123,
+  "dest_ip": "192.168.56.10",
+  "dest_port": 9999,
+  "alert": {
+    "signature": "SURICATA LAB NETCAT TEST",
+    "signature_id": 1000001,
+    "rev": 1,
+    "severity": 3
+  },
+  "note": "SAMPLE ONLY \u2014 not a real lab observation"
+}

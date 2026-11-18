@@ -1,0 +1,17 @@
+# Example snippets only; merge into the installed /etc/suricata/suricata.yaml.
+# Do not replace your entire configuration with this file.
+vars:
+  address-groups:
+    HOME_NET: "[192.168.56.0/24]"  # replace with your actual private lab subnet
+
+af-packet:
+  - interface: enp0s3              # replace with your actual monitored interface
+    cluster-id: 99
+    cluster-type: cluster_flow
+    defrag: yes
+    tpacket-v3: yes
+
+default-rule-path: /var/lib/suricata/rules
+rule-files:
+  - suricata.rules
+  - /etc/suricata/rules/local.rules
